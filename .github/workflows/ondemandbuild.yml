@@ -19,8 +19,8 @@ concurrency:
     
 jobs:
 
-    publish:
-        uses: srinivas-kujala/databricks-workflows/.github/workflows/publish.yml@main 
+    deploy:
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main 
         with:
             branch-name: ${{ inputs.branch-name }}
             environment: ${{ inputs.environment }}
