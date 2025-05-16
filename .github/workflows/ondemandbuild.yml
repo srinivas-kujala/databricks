@@ -1,0 +1,27 @@
+name: On Demand Build
+
+on:
+    workflow_dispatch:
+        inputs:
+            branch-name:  # id of input
+                type: string
+                description: 'Name of the repository branch. Ex: feature/12345_Title-Of-Ticket'
+                required: true
+                default: develop
+            environment:  # id of input
+                type: string
+                description: 'Environment where the books needs to be deployed ex: dev'
+                required: true
+
+concurrency:
+    group: ${{ github.workflow }}-${{ inputs.branch-name }}
+    cancel-in-progress: true
+    
+jobs:
+
+    publish:
+        uses: <orginzation>/workflows/.github/workflows/publish.yml@main 
+        with:
+            branch-name: ${{ inputs.branch-name }}
+            environment: ${{ inputs.environment }}
+        secrets: inherit
