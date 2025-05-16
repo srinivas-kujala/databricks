@@ -7,11 +7,12 @@ on:
                 type: string
                 description: 'Name of the repository branch. Ex: feature/12345_Title-Of-Ticket'
                 required: true
-                default: develop
+                default: main
             environment:  # id of input
                 type: string
                 description: 'Environment where the books needs to be deployed ex: dev'
                 required: true
+                default: dev
 
 concurrency:
     group: ${{ github.workflow }}-${{ inputs.branch-name }}
