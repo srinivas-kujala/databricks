@@ -1,0 +1,43 @@
+name: Continuous Deployment
+
+on:
+    push:
+        branches:
+            - 'main'
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref_name }}
+    cancel-in-progress: true
+    
+jobs:
+
+    dev-deploy:
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
+        with:
+            branch-name: ${{ github.ref_name }}
+            environment: 'dev'
+        secrets: inherit
+    
+    qa-deploy:
+        needs: dev-deploy
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
+        with:
+            branch-name: ${{ github.ref_name }}
+            environment: 'qa'
+        secrets: inherit
+
+    release-deploy:
+        needs: qa-deploy
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
+        with:
+            branch-name: ${{ github.ref_name }}
+            environment: 'release'
+        secrets: inherit
+    
+    prod-deploy:
+        needs: release-deploy
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
+        with:
+            branch-name: ${{ github.ref_name }}
+            environment: 'prod'
+        secrets: inherit
