@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on:
+    pull_request:
+        types:
+            - opened
+            - synchronize
+            - reopened
+    
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref }}
+    cancel-in-progress: true
+        
+jobs:
+
+    compile:
+        uses: srinivas-kujala/databricks-workflows/.github/workflows/compile.yml@main
+        with:
+            branch-name: ${{ github.head_ref }}
+            environment: 'dev'
+        secrets: inherit
