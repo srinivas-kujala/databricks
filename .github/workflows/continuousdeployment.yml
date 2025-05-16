@@ -11,31 +11,31 @@ concurrency:
     
 jobs:
 
-    dev-deploy:
+    dev:
         uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
         with:
             branch-name: ${{ github.ref_name }}
             environment: 'dev'
         secrets: inherit
     
-    qa-deploy:
-        needs: dev-deploy
+    qa:
+        needs: dev
         uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
         with:
             branch-name: ${{ github.ref_name }}
             environment: 'qa'
         secrets: inherit
 
-    release-deploy:
-        needs: qa-deploy
+    release:
+        needs: qa
         uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
         with:
             branch-name: ${{ github.ref_name }}
             environment: 'release'
         secrets: inherit
     
-    prod-deploy:
-        needs: release-deploy
+    prod:
+        needs: release
         uses: srinivas-kujala/databricks-workflows/.github/workflows/deploy.yml@main
         with:
             branch-name: ${{ github.ref_name }}
