@@ -9,10 +9,14 @@ on:
                 required: true
                 default: main
             environment:  # id of input
-                type: string
-                description: 'Environment where the books needs to be deployed ex: dev'
-                required: true
+                type: choice
+                description: 'Please select Environment for deployment'
                 default: dev
+                options:
+                    - 'dev'
+                    - 'qa'
+                    - 'release'
+                    - 'prod'
 
 concurrency:
     group: ${{ github.workflow }}-${{ inputs.branch-name }}
